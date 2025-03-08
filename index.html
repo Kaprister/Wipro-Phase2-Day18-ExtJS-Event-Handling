@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <h2>EXT JS Event Handling Demo</h2>
+    <h2 id="heading">EXT JS Event Handling Demo</h2>
 
     <!-- Button -->
     <button id="myButton">Click Me</button>
@@ -17,11 +17,11 @@
     <!-- Form -->
     <form id="myForm">
         <input type="text" id="name" placeholder="Enter your name">
-        <button type="submit">Submit</button>
+        <button type="submit" id="submitBtn">Submit</button>
     </form>
 
     <!-- Parent div for Event Delegation -->
-    <div id="parentDiv">
+    <div id="parentDiv" style="padding: 20px; border: 1px solid black; margin-top: 10px;">
         <button class="child-btn" id="btn1">Button 1</button>
         <button class="child-btn" id="btn2">Button 2</button>
         <button class="child-btn" id="btn3">Button 3</button>
@@ -46,12 +46,14 @@
                 alert(target.id + ' Clicked!');
             }, null, { delegate: '.child-btn' });
 
-            // Event Delegation - Double Click event for a specific button
+            // Double Click event for a specific button
             Ext.get('parentDiv').on('dblclick', function (event, target) {
                 alert(target.id + ' Double Clicked!');
             }, null, { delegate: '.child-btn4' });
 
             // Additional Events
+
+            // Mouseover & Mouseout on myButton
             Ext.get('myButton').on('mouseover', function () {
                 this.setStyle('background-color', 'lightblue');
             });
@@ -60,16 +62,67 @@
                 this.setStyle('background-color', '');
             });
 
+            // Keypress on Input Field
             Ext.get('name').on('keypress', function (event) {
                 console.log('Key Pressed: ' + String.fromCharCode(event.getCharCode()));
             });
 
+            // Keydown on Input Field
+            Ext.get('name').on('keydown', function (event) {
+                console.log('Key Down: ' + event.getKey());
+            });
+
+            // Keydown anywhere on the document
+            Ext.get(document).on('keydown', function (event) {
+                console.log('Key Down on Page: ' + event.getKey());
+            });
+
+            // Focus & Blur on Input Field
             Ext.get('name').on('focus', function () {
                 this.setStyle('border', '2px solid green');
             });
 
             Ext.get('name').on('blur', function () {
                 this.setStyle('border', '');
+            });
+
+            // Change event on Input Field
+            Ext.get('name').on('change', function () {
+                console.log('Input Changed: ' + this.getValue());
+            });
+
+            // Focus & Blur on Submit Button
+            Ext.get('submitBtn').on('focus', function () {
+                this.setStyle('background-color', 'yellow');
+            });
+
+            Ext.get('submitBtn').on('blur', function () {
+                this.setStyle('background-color', '');
+            });
+
+            // Contextmenu (Right Click) on Parent Div
+            Ext.get('parentDiv').on('contextmenu', function (event) {
+                event.preventDefault();
+                alert('Right-click is disabled on this section!');
+            });
+
+            // Mouseenter & Mouseleave on Parent Div
+            Ext.get('parentDiv').on('mouseenter', function () {
+                this.setStyle('background-color', '#f0f0f0');
+            });
+
+            Ext.get('parentDiv').on('mouseleave', function () {
+                this.setStyle('background-color', '');
+            });
+
+            // Double Click on Heading
+            Ext.get('heading').on('dblclick', function () {
+                this.setStyle('color', 'red');
+            });
+
+            // Resize Event on Window
+            Ext.get(window).on('resize', function () {
+                console.log('Window Resized: New width - ' + window.innerWidth);
             });
 
         });
