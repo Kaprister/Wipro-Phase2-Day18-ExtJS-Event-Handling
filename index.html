@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXT JS Event Handling</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/ext-all.js"></script>
+    <script src="https://cdn.sencha.com/ext/trial/7.3.1/build/ext-all.js"></script>
+</head>
+<body>
+
+    <h2>EXT JS Event Handling Demo</h2>
+
+    <!-- Button -->
+    <button id="myButton">Click Me</button>
+
+    <!-- Form -->
+    <form id="myForm">
+        <input type="text" id="name" placeholder="Enter your name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Parent div for Event Delegation -->
+    <div id="parentDiv">
+        <button class="child-btn" id="btn1">Button 1</button>
+        <button class="child-btn" id="btn2">Button 2</button>
+        <button class="child-btn" id="btn3">Button 3</button>
+        <button class="child-btn4" id="btn4">Button Double Click 4</button>
+    </div>
+
+    <script>
+        Ext.onReady(function () {
+            // Event Listener - Button Click
+            Ext.get('myButton').on('click', function () {
+                alert('Button Clicked!');
+            });
+
+            // Event Binding - Form Submission
+            Ext.get('myForm').on('submit', function (event) {
+                event.preventDefault();
+                alert('Form Submitted with Name: ' + Ext.get('name').getValue());
+            });
+
+            // Event Delegation - Click event for child buttons
+            Ext.get('parentDiv').on('click', function (event, target) {
+                alert(target.id + ' Clicked!');
+            }, null, { delegate: '.child-btn' });
+
+            // Event Delegation - Double Click event for a specific button
+            Ext.get('parentDiv').on('dblclick', function (event, target) {
+                alert(target.id + ' Double Clicked!');
+            }, null, { delegate: '.child-btn4' });
+
+            // Additional Events
+            Ext.get('myButton').on('mouseover', function () {
+                this.setStyle('background-color', 'lightblue');
+            });
+
+            Ext.get('myButton').on('mouseout', function () {
+                this.setStyle('background-color', '');
+            });
+
+            Ext.get('name').on('keypress', function (event) {
+                console.log('Key Pressed: ' + String.fromCharCode(event.getCharCode()));
+            });
+
+            Ext.get('name').on('focus', function () {
+                this.setStyle('border', '2px solid green');
+            });
+
+            Ext.get('name').on('blur', function () {
+                this.setStyle('border', '');
+            });
+
+        });
+    </script>
+
+</body>
+</html>
